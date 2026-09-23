@@ -1,4 +1,5 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23010003'/><circle cx='20' cy='32' r='11' fill='%23fc056c'/><circle cx='44' cy='32' r='11' fill='%23530fdb'/></svg>">
 <title>Isabella Oliveira · QA</title>
 <meta name="description" content="Portfólio de Isabella Oliveira, Analista de Testes e QA em Belo Horizonte/MG.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -139,7 +140,10 @@ h3{font:700 22px/1.2 var(--display); letter-spacing:-.015em; margin:0}
 .proj-info p{color:var(--muted); margin:0; max-width:52ch}
 .tags{display:flex; flex-wrap:wrap; gap:6px}
 .tags span{font:600 12px/1 var(--mono); padding:8px 12px; border-radius:999px; border:1px solid var(--line); color:var(--muted)}
-.proj-info .btn{align-self:flex-start; margin-top:auto}
+.proj-list{display:grid; gap:24px}
+@media (min-width:901px){.proj.rev .flow{order:-1}}
+.proj-kicker{font:600 12px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--violet-text)}
+.proj-actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; padding-top:4px}
 .flow{background:var(--surface-2); padding:clamp(24px,4vw,40px); display:grid; gap:10px; align-content:center}
 .step{display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:18px; background:var(--surface); border:1px solid var(--line)}
 .step .n{flex:none; width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font:700 13px/1 var(--mono);background:var(--violet);color:#fcfcfc}
@@ -212,9 +216,9 @@ footer code{font-family:var(--mono); font-size:12.5px}
     <a class="logo" href="#inicio" aria-label="Início"><i></i>isa.qa</a>
     <nav class="links" aria-label="Seções">
       <a href="#sobre" data-i18n="nav.about">Sobre mim</a>
-      <a href="#experiencia" data-i18n="nav.xp">Experiência</a>
       <a href="#skills" data-i18n="nav.skills">Skills</a>
       <a href="#projetos" data-i18n="nav.projects">Projetos</a>
+      <a href="#experiencia" data-i18n="nav.xp">Experiência</a>
       <a href="#prompt" data-i18n="nav.prompt">Prompts</a>
       <a href="#contato" data-i18n="nav.contact">Contato</a>
     </nav>
@@ -285,24 +289,6 @@ footer code{font-family:var(--mono); font-size:12.5px}
     </div>
   </section>
 
-  <!-- EXPERIENCIA -->
-  <section class="block" id="experiencia">
-    <div class="sec-head"><div><span class="tag" data-i18n="xp.tag">Experiência</span><h2 data-i18n="xp.h2">Onde estou testando agora</h2></div></div>
-    <article class="xp">
-      <div class="xp-when"><span data-i18n="xp.when">Atual</span><br><span class="now" data-i18n="xp.now">Em andamento</span></div>
-      <div>
-        <h3 data-i18n="xp.role">Analista de Testes e QA</h3>
-        <div class="xp-co">Tolky</div>
-        <ul>
-          <li data-i18n="xp.l1">Criação e manutenção de testes automatizados com Playwright para os ambientes de staging e produção.</li>
-          <li data-i18n="xp.l2">Validação de APIs com Postman e checagem de dados via SQL, Supabase e DBeaver.</li>
-          <li data-i18n="xp.l3">Investigação de falhas em produção com análise de filas RabbitMQ, logs e dados para identificar a causa raiz.</li>
-          <li data-i18n="xp.l4">Registro e acompanhamento de bugs e cenários de validação no Linear e no Jira.</li>
-        </ul>
-      </div>
-    </article>
-  </section>
-
   <!-- SKILLS -->
   <section class="block" id="skills">
     <div class="sec-head"><div><span class="tag" data-i18n="sk.tag">Skills / Ferramentas</span><h2 data-i18n="sk.h2">Minha caixa de ferramentas</h2></div><p data-i18n="sk.p">O que uso para planejar, executar e reportar testes.</p></div>
@@ -318,19 +304,62 @@ footer code{font-family:var(--mono); font-size:12.5px}
 
   <!-- PROJETOS -->
   <section class="block" id="projetos">
-    <div class="sec-head"><div><span class="tag" data-i18n="pj.tag">Projetos</span><h2 data-i18n="pj.h2">Ferramentas que eu construí</h2></div></div>
+    <div class="sec-head"><div><span class="tag" data-i18n="pj.tag">Projetos</span><h2 data-i18n="pj.h2">Ferramentas que eu construí</h2></div><p data-i18n="pj.p">Os dois nasceram de necessidades reais do meu dia a dia em QA e têm versão demo pública — é só clicar e navegar.</p></div>
+    <div class="proj-list">
+
     <article class="proj">
       <div class="proj-info">
-        <div class="tags"><span>Playwright</span><span>Cypress</span><span>CLI</span><span data-i18n="pj.tagr">Relatórios</span></div>
+        <div class="tags"><span>Playwright</span><span>Cypress</span><span>Next.js</span><span>GitHub Actions</span></div>
         <h3 data-i18n="pj.title">Repositório de Scripts</h3>
-        <p data-i18n="pj.desc">Um hub pessoal para os meus testes Playwright e Cypress: armazena os scripts, organiza tudo em suítes, monta o comando certo para cada bateria de testes e gera um relatório final sob demanda.</p>
-        <a class="btn btn-ghost" href="https://github.com/isaoliveira13" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg><span data-i18n="pj.cta">Ver no GitHub</span></a>
+        <p data-i18n="pj.desc">Uma biblioteca para organizar scripts de teste Playwright e Cypress: cada script vira um card com avatar, ambiente, cenário, tela do CRM coberta e etiquetas. Dá para montar suítes, revisar rascunhos com histórico de versões, acompanhar a cobertura por tela e emitir um checklist de aprovação em PDF. Na versão interna, o botão “Rodar” dispara o teste de verdade num workflow do GitHub Actions.</p>
+        <div class="proj-actions">
+          <a class="btn btn-pink" href="https://scripts-simulator-hub.vercel.app/" target="_blank" rel="noopener"><span data-i18n="pj.demo">Testar a demo</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <a class="btn btn-ghost" href="https://github.com/isaoliveira13/qa-simulator/tree/main/scripts-hub-demo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg><span data-i18n="pj.cta">Ver no GitHub</span></a>
+        </div>
       </div>
       <div class="flow" aria-label="Como funciona">
-        <div class="step"><span class="n">01</span><div><b data-i18n="pj.s1">Armazena</b><small data-i18n="pj.s1d">Scripts Playwright e Cypress em um só lugar.</small></div></div>
-        <div class="step"><span class="n">02</span><div><b data-i18n="pj.s2">Organiza em suítes</b><small data-i18n="pj.s2d">Agrupa por fluxo, ambiente ou funcionalidade.</small></div></div>
-        <div class="step"><span class="n">03</span><div><b data-i18n="pj.s3">Emite o comando</b><small><code>npx playwright test --grep @checkout</code></small></div></div>
-        <div class="step"><span class="n">04</span><div><b data-i18n="pj.s4">Gera o relatório</b><small data-i18n="pj.s4d">Resumo final da bateria, pronto para compartilhar.</small></div></div>
+        <div class="step"><span class="n">01</span><div><b data-i18n="pj.s1">Biblioteca</b><small data-i18n="pj.s1d">Scripts organizados por avatar e ambiente, com busca, filtros e etiquetas.</small></div></div>
+        <div class="step"><span class="n">02</span><div><b data-i18n="pj.s2">Rascunhos e suítes</b><small data-i18n="pj.s2d">Versões com diff antes de publicar e sequências de teste com ordem própria.</small></div></div>
+        <div class="step"><span class="n">03</span><div><b data-i18n="pj.s3">Monta o comando</b><small><code>npx playwright test checkout.spec.ts</code></small></div></div>
+        <div class="step"><span class="n">04</span><div><b data-i18n="pj.s4">Cobertura e checklist</b><small data-i18n="pj.s4d">Cenários cobertos por tela do CRM e aprovado/reprovado em PDF.</small></div></div>
+      </div>
+    </article>
+
+    <article class="proj rev">
+      <div class="proj-info">
+        <div class="tags"><span data-i18n="pj2.tag1">IA</span><span data-i18n="pj2.tag2">Simulação de conversas</span><span>Next.js</span><span>TypeScript</span></div>
+        <h3>QA Simulator Chat</h3>
+        <p data-i18n="pj2.desc">Um motor para testar avatares de IA de atendimento simulando conversas reais: monto um cenário, a conversa roda turno a turno contra o avatar e, no fim, fica salvo um relatório com resultado, transcrição completa, tempo e sentimento. Roda com várias personas de uma vez, em lote, e tem heurísticas que detectam quando o avatar entra em loop e barram um “sucesso” sem evidência no texto. Na versão interna, conversa com a API real e usa a OpenAI no papel do cliente.</p>
+        <div class="proj-actions">
+          <a class="btn btn-pink" href="https://qa-simulator-chat.vercel.app/testes-avatar" target="_blank" rel="noopener"><span data-i18n="pj.demo">Testar a demo</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          <a class="btn btn-ghost" href="https://github.com/isaoliveira13/qa-simulator" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg><span data-i18n="pj.cta">Ver no GitHub</span></a>
+        </div>
+      </div>
+      <div class="flow" aria-label="Como funciona">
+        <div class="step"><span class="n">01</span><div><b data-i18n="pj2.s1">Monta o cenário</b><small data-i18n="pj2.s1d">Assistente em 5 etapas: quem conversa, o quê, como e com quais dados.</small></div></div>
+        <div class="step"><span class="n">02</span><div><b data-i18n="pj2.s2">Escolhe as personas</b><small><code>{nome} {cpf} {cidade}</code></small></div></div>
+        <div class="step"><span class="n">03</span><div><b data-i18n="pj2.s3">Roda a conversa</b><small data-i18n="pj2.s3d">Turno a turno e ao vivo, com pausar/retomar — sozinha ou em lote.</small></div></div>
+        <div class="step"><span class="n">04</span><div><b data-i18n="pj2.s4">Gera o relatório</b><small data-i18n="pj2.s4d">Resultado, transcrição, tempo e sentimento, exportável em PDF.</small></div></div>
+      </div>
+    </article>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section class="block" id="experiencia">
+    <div class="sec-head"><div><span class="tag" data-i18n="xp.tag">Experiência</span><h2 data-i18n="xp.h2">Onde estou testando agora</h2></div></div>
+    <article class="xp">
+      <div class="xp-when"><span data-i18n="xp.when">Atual</span><br><span class="now" data-i18n="xp.now">Em andamento</span></div>
+      <div>
+        <h3 data-i18n="xp.role">Analista de Testes e QA</h3>
+        <div class="xp-co">Tolky</div>
+        <ul>
+          <li data-i18n="xp.l1">Criação e manutenção de testes automatizados com Playwright para os ambientes de staging e produção.</li>
+          <li data-i18n="xp.l2">Validação de APIs com Postman e checagem de dados via SQL, Supabase e DBeaver.</li>
+          <li data-i18n="xp.l3">Investigação de falhas em produção com análise de filas RabbitMQ, logs e dados para identificar a causa raiz.</li>
+          <li data-i18n="xp.l4">Registro e acompanhamento de bugs e cenários de validação no Linear e no Jira.</li>
+        </ul>
       </div>
     </article>
   </section>
@@ -402,10 +431,18 @@ footer code{font-family:var(--mono); font-size:12.5px}
     "sk.tag":"Skills / Tools","sk.h2":"My toolbox","sk.p":"What I use to plan, run and report tests.",
     "sk.c1":"E2E automation","sk.c2":"APIs & messaging","sk.c3":"Databases","sk.c4":"Task management","sk.c5":"Generative AI","sk.c6":"Languages",
     "sk.pt":"Portuguese · native","sk.en":"English · intermediate",
-    "pj.tag":"Projects","pj.h2":"Tools I've built","pj.tagr":"Reports","pj.title":"Script Repository",
-    "pj.desc":"A personal hub for my Playwright and Cypress tests: it stores the scripts, organizes them into suites, builds the right command for each test run and generates a final report on demand.",
-    "pj.cta":"View on GitHub","pj.s1":"Stores","pj.s1d":"Playwright and Cypress scripts in one place.","pj.s2":"Organizes into suites","pj.s2d":"Groups by flow, environment or feature.",
-    "pj.s3":"Builds the command","pj.s4":"Generates the report","pj.s4d":"A final run summary, ready to share.",
+    "pj.tag":"Projects","pj.h2":"Tools I've built","pj.p":"Both were born from real needs in my day-to-day QA work, and both have a public demo — just click and explore.",
+    "pj.title":"Script Repository",
+    "pj.desc":"A library to organize Playwright and Cypress test scripts: each script becomes a card with its avatar, environment, scenario, covered CRM screen and tags. You can build suites, review drafts with version history, track coverage per screen and export a pass/fail checklist as a PDF. In the internal version, the “Run” button actually triggers the test in a GitHub Actions workflow.",
+    "pj.demo":"Try the demo","pj.cta":"View on GitHub",
+    "pj.s1":"Library","pj.s1d":"Scripts organized by avatar and environment, with search, filters and tags.",
+    "pj.s2":"Drafts & suites","pj.s2d":"Versions with diffs before publishing, and test sequences with their own order.",
+    "pj.s3":"Builds the command","pj.s4":"Coverage & checklist","pj.s4d":"Scenarios covered per CRM screen and pass/fail results as a PDF.",
+    "pj2.tag1":"AI","pj2.tag2":"Conversation simulation",
+    "pj2.desc":"An engine to test customer-service AI avatars by simulating real conversations: I set up a scenario, the conversation runs turn by turn against the avatar and, at the end, a report is saved with the outcome, full transcript, duration and sentiment. It runs with several personas at once, in batch, and has heuristics that detect when the avatar gets stuck in a loop and block a “success” with no evidence in the text. In the internal version, it talks to the real API and uses OpenAI to play the customer.",
+    "pj2.s1":"Sets up the scenario","pj2.s1d":"A 5-step wizard: who's talking, about what, how and with which data.",
+    "pj2.s2":"Picks the personas","pj2.s3":"Runs the conversation","pj2.s3d":"Turn by turn and live, with pause/resume — one at a time or in batch.",
+    "pj2.s4":"Generates the report","pj2.s4d":"Outcome, transcript, duration and sentiment, exportable as PDF.",
     "ct.tag":"Certifications","ct.h2":"Continuous learning","ct.ph":"Placeholder — replace with your certification.",
     "pr.tag":"Prompt Engineering","pr.h2":"AI as a QA partner","pr.p":"Prompts with a clear context, task, format and constraints — for answers you can actually use.",
     "pr.u1":"Scenarios from acceptance criteria","pr.u1d":"I turn requirements into positive, negative and edge test cases.",
