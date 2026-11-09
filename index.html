@@ -273,6 +273,12 @@ nav.links a.active{color:var(--ink); background:var(--surface-2)}
 .lupi.jump{animation:jump .6s cubic-bezier(.3,1.4,.5,1)}
 @keyframes jump{25%{transform:scale(.86,1.42)}55%{transform:scale(1.12,.86)}80%{transform:scale(.97,1.06)}}
 @media (max-width:600px){.buddy{right:calc(16px + env(safe-area-inset-right,0px))}.lupi{--w:76px}}
+/* arrastar e esticar: o corpo fica preso na borda e estica como geleca até o cursor */
+.lupi{cursor:grab; touch-action:none}
+.lupi.drag{transition:none; cursor:grabbing}
+.lupi.drag .blob{opacity:0}
+.goo{position:fixed; inset:0; width:100%; height:100%; z-index:29; pointer-events:none; opacity:0; filter:drop-shadow(0 0 14px rgba(252,5,108,.4))}
+.goo.on{opacity:1}
 footer{padding-bottom:104px}
 /* balão de fala */
 .say{position:absolute; right:0; bottom:calc(100% + 14px); width:max-content; max-width:min(230px, 62vw); padding:10px 14px; border-radius:16px 16px 4px 16px; background:var(--ink); color:var(--bg); font:500 13px/1.4 var(--body); box-shadow:var(--shadow); opacity:0; transform:translateY(6px) scale(.96); transform-origin:100% 100%; transition:opacity .25s, transform .25s cubic-bezier(.3,1.4,.5,1); pointer-events:none}
@@ -696,7 +702,8 @@ footer{padding-bottom:104px}
   const lupi = document.createElement("button"); lupi.type = "button"; lupi.className = "lupi"; lupi.innerHTML = '<span class="blob"></span>' + FACE;
   const sayEl = document.createElement("div"); sayEl.className = "say"; sayEl.setAttribute("aria-hidden","true");
   buddy.append(lupi, sayEl); document.body.appendChild(buddy);
-  lupi.addEventListener("click", () => { hop(lupi); speak(pick(CLICK)); });
+  let dragged = false;
+  lupi.addEventListener("click", () => { if (dragged){ dragged = false; return; } hop(lupi); speak(pick(CLICK)); });
   function labels(){ lupi.setAttribute("aria-label", en() ? "Lupi, the portfolio mascot. Click for a line." : "Lupi, a mascote do portfólio. Clique para ouvir uma fala."); }
   labels();
   function active(){ return {lupi:lupi}; }
@@ -737,6 +744,54 @@ footer{padding-bottom:104px}
   };
   let lastSec = null; const seen = {};
   function sectionLine(id){ if (seen[id] || !SECTION[id]) return; seen[id] = 1; setTimeout(() => { if (!document.querySelector(".say.on")) speak(SECTION[id]); }, 500); }
+
+  /* --- arrastar e esticar --- */
+  const goo = document.createElementNS("http://www.w3.org/2000/svg", "svg"); goo.setAttribute("class", "goo"); goo.setAttribute("aria-hidden", "true");
+  goo.innerHTML = '<defs><linearGradient id="lupi-goo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7b3dff"/><stop offset=".6" stop-color="#530fdb"/><stop offset="1" stop-color="#a30c9f"/></linearGradient></defs><path fill="url(#lupi-goo)"/>';
+  document.body.appendChild(goo); const gooPath = goo.querySelector("path"), faceEl = lupi.querySelector("svg");
+  let drag = null, spring = 0;
+  function restPos(){ const r = buddy.getBoundingClientRect(), w = lupi.offsetWidth; return {x:r.left + w / 2, y:r.top + w * .4, w:w, bx:r.left + w / 2, by:r.bottom}; }
+  function place(d){
+    const o = d.o, h = d.h, dx = h.x - o.bx, dy = h.y - o.by, dist = Math.hypot(dx, dy) || 1, nx = dy / dist, ny = -dx / dist;
+    const R = o.w * .5, hw = o.w / 2, nk = R * Math.max(.26, 1 - Math.max(0, dist - o.w * .4) / 520), mx = o.bx + dx * .5, my = o.by + dy * .5, lift = dist * .3;
+    const f = n => n.toFixed(1);
+    gooPath.setAttribute("d", "M" + f(o.bx - hw) + " " + f(o.by) + "C" + f(o.bx - hw) + " " + f(o.by - lift) + " " + f(mx + nx * nk) + " " + f(my + ny * nk) + " " + f(h.x + nx * R) + " " + f(h.y + ny * R)
+      + "A" + f(R) + " " + f(R) + " 0 1 1 " + f(h.x - nx * R) + " " + f(h.y - ny * R)
+      + "C" + f(mx - nx * nk) + " " + f(my - ny * nk) + " " + f(o.bx + hw) + " " + f(o.by - lift) + " " + f(o.bx + hw) + " " + f(o.by) + "Z");
+    lupi.style.transform = "translate(" + f(h.x - o.x) + "px," + f(h.y - o.y) + "px)";
+    faceEl.style.transform = "rotate(" + f(dx / dist * 18) + "deg)";
+  }
+  function endDrag(){
+    lupi.style.transform = ""; faceEl.style.transform = ""; lupi.classList.remove("drag", "wow"); goo.classList.remove("on"); drag = null;
+    hop(lupi); speak(["Teste de elasticidade: aprovado.", "Elasticity test: passed."]);
+  }
+  lupi.addEventListener("pointerdown", e => {
+    if (e.button) return; cancelAnimationFrame(spring);
+    const o = restPos(); drag = {o:o, sx:e.clientX, sy:e.clientY, moved:false, h:{x:o.x, y:o.y}};
+    try { lupi.setPointerCapture(e.pointerId); } catch(err){}
+  });
+  lupi.addEventListener("pointermove", e => {
+    const d = drag; if (!d || d.released) return;
+    const mx = e.clientX - d.sx, my = e.clientY - d.sy;
+    if (!d.moved){
+      if (Math.hypot(mx, my) < 6) return;
+      d.moved = true; lupi.classList.add("drag", "wow"); goo.classList.add("on"); speak(["Eeei, eu estico!", "Heeey, I stretch!"], 2600);
+    }
+    d.h.x = d.o.x + mx; d.h.y = Math.min(d.o.y + my, d.o.by - d.o.w * .3); place(d);
+  });
+  function release(){
+    const d = drag; if (!d || d.released) return;
+    if (!d.moved){ drag = null; return; }
+    d.released = true; dragged = true; setTimeout(() => dragged = false, 60);
+    if (reduced) return endDrag();
+    let vx = 0, vy = 0;   // volta como mola
+    (function step(){
+      vx = (vx + (d.o.x - d.h.x) * .16) * .8; vy = (vy + (d.o.y - d.h.y) * .16) * .8;
+      d.h.x += vx; d.h.y = Math.min(d.h.y + vy, d.o.by - d.o.w * .3); place(d);
+      if (Math.hypot(d.o.x - d.h.x, d.o.y - d.h.y) < .7 && Math.hypot(vx, vy) < .7) endDrag(); else spring = requestAnimationFrame(step);
+    })();
+  }
+  lupi.addEventListener("pointerup", release); lupi.addEventListener("pointercancel", release);
 
   /* --- terminal: rodar de novo --- */
   const termEl = $("#term-body"), head = $(".term-head");
